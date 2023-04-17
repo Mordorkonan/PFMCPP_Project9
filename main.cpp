@@ -52,22 +52,35 @@ struct Wrapper
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
 
-    void print(Type arg)
+    void print()
     {
-        if constexpr (std::is_same<Type, double>::value)
-        {
-            if (arg == 3.5)    { std::cout << "Wrapper::print(3.5)\n"; }
-        }
+        std::cout << "Wrapper::print(" << val << ")\n";
     }
 
     Type val;
+};
+
+template<>
+struct Wrapper<Point>
+{
+    Wrapper(Point&& t) : val(std::move(t)) 
+    { 
+        std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
+    }
+
+    void print()
+    {
+        std::cout << "Wrapper::print(" << val.toString() << ")\n";
+    }
+
+    Point val;
 };
 
 template <typename T, typename ... Args>
 void variadicHelper(T firstArg, Args ... args)
 {
     Wrapper<T> w (std::move(firstArg));
-    w.print(firstArg);
+    w.print();
     
     variadicHelper(std::move(args) ... );
 }
@@ -76,7 +89,7 @@ template <typename T>
 void variadicHelper(T firstArg)
 {
     Wrapper<T> w (std::move(firstArg));
-    w.print(firstArg);
+    w.print();
 }
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
