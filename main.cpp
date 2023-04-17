@@ -51,8 +51,33 @@ struct Wrapper
     { 
         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
     }
+
+    void print(Type arg)
+    {
+        if constexpr (std::is_same<Type, double>::value)
+        {
+            if (arg == 3.5)    { std::cout << "Wrapper::print(3.5)\n"; }
+        }
+    }
+
+    Type val;
 };
 
+template <typename T, typename ... Args>
+void variadicHelper(T firstArg, Args ... args)
+{
+    Wrapper<T> w (std::move(firstArg));
+    w.print(firstArg);
+    
+    variadicHelper(std::move(args) ... );
+}
+
+template <typename T>
+void variadicHelper(T firstArg)
+{
+    Wrapper<T> w (std::move(firstArg));
+    w.print(firstArg);
+}
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
