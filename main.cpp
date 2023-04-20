@@ -82,7 +82,7 @@ void variadicHelper(T&& firstArg, Args&& ... args)
     Wrapper<T> w (std::move(firstArg));
     w.print();
     
-    variadicHelper(std::move(args) ... );
+    variadicHelper(std::forward<Args>(args) ... );
 }
 
 template <typename T>
