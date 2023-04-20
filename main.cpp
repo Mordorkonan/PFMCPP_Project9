@@ -77,7 +77,7 @@ struct Wrapper<Point>
 };
 
 template <typename T, typename ... Args>
-void variadicHelper(T firstArg, Args ... args)
+void variadicHelper(T&& firstArg, Args&& ... args)
 {
     Wrapper<T> w (std::move(firstArg));
     w.print();
@@ -86,7 +86,7 @@ void variadicHelper(T firstArg, Args ... args)
 }
 
 template <typename T>
-void variadicHelper(T firstArg)
+void variadicHelper(T&& firstArg)
 {
     Wrapper<T> w (std::move(firstArg));
     w.print();
