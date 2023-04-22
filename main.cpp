@@ -60,29 +60,35 @@ struct Wrapper
     Type val;
 };
 
+// template<>
+// struct Wrapper<Point>
+// {
+//     Wrapper(Point&& t) : val(std::move(t)) 
+//     { 
+//         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
+//     }
+
+//     void print()
+//     {
+//         std::cout << "Wrapper::print(" << val.toString() << ")\n";
+//     }
+
+//     Point val;
+// };
+
 template<>
-struct Wrapper<Point>
+void Wrapper<Point>::print()
 {
-    Wrapper(Point&& t) : val(std::move(t)) 
-    { 
-        std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
-    }
-
-    void print()
-    {
-        std::cout << "Wrapper::print(" << val.toString() << ")\n";
-    }
-
-    Point val;
-};
+    std::cout << "Wrapper::print(" << val.toString() << ")\n";
+}
 
 template <typename T, typename ... Args>
 void variadicHelper(T&& firstArg, Args&& ... args)
 {
     Wrapper<T> w (std::move(firstArg));
     w.print();
-    
-    variadicHelper(std::forward<Args>(args) ... );
+
+    variadicHelper(std::forward<Args>(args) ... );     
 }
 
 template <typename T>
@@ -91,6 +97,7 @@ void variadicHelper(T&& firstArg)
     Wrapper<T> w (std::move(firstArg));
     w.print();
 }
+
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
 
@@ -107,6 +114,7 @@ void variadicHelper(T&& firstArg)
 
 int main()
 {
+    // variadicHelper(0);
     variadicHelper( 3, std::string("burgers"), 2.5, Point{3.f, 0.14f} );
 }
 
