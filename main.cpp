@@ -60,22 +60,6 @@ struct Wrapper
     Type val;
 };
 
-// template<>
-// struct Wrapper<Point>
-// {
-//     Wrapper(Point&& t) : val(std::move(t)) 
-//     { 
-//         std::cout << "Wrapper(" << typeid(val).name() << ")" << std::endl; 
-//     }
-
-//     void print()
-//     {
-//         std::cout << "Wrapper::print(" << val.toString() << ")\n";
-//     }
-
-//     Point val;
-// };
-
 template<>
 void Wrapper<Point>::print()
 {
@@ -94,13 +78,6 @@ void variadicHelper(T&& firstArg, Args&& ... args)
 }
 
 void variadicHelper() { }
-
-// template <typename T>
-// void variadicHelper(T&& firstArg)
-// {
-//     Wrapper<T> w (std::move(firstArg));
-//     w.print();
-// }
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
